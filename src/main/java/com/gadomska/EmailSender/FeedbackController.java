@@ -2,14 +2,15 @@ package com.gadomska.EmailSender;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.xml.bind.ValidationException;
+import javax.validation.ValidationException;
 
-@Controller
+@RestController
 @RequestMapping("/feedback")
 public class FeedbackController {
 
@@ -19,7 +20,8 @@ public class FeedbackController {
         this.emailConfig = emailConfig;
     }
 
-    public void sendFeedback(@RequestBody Feedback feedback, BindingResult bindingResult) throws ValidationException {
+    @PostMapping
+    public void sendFeedback(@RequestBody Feedback feedback, BindingResult bindingResult)  {
         if (bindingResult.hasErrors()) {
             throw new ValidationException("Feedback is not valid");
         }
